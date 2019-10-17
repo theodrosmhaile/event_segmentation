@@ -1,0 +1,8 @@
+﻿key_resp_inst.keys,key_resp_inst.rt,key_resp1_seg.keys,key_resp1_seg.rt,key_resp1_end.keys,key_resp2_seg.keys,key_resp2_seg.rt,key_resp2_end.keys,key_resp3_seg.keys,key_resp3_seg.rt,key_resp3_end.keys,participant,session,date,expName,psychopyVersion,frameRate,
+['space'],[37.340174999961164],,,,,,,,,,28325,001,2019_May_08_1600,segmenting_ilabs,3.0.7,60.03626191272395,
+,,"['space', 'space', 'space', 'space', 'space', 'space', 'space']","[22.339327400026377, 44.05681929999264, 46.12336950004101, 78.54155710001942, 123.69059040001594, 164.08978600002592, 209.94050269998843]",,,,,,,,28325,001,2019_May_08_1600,segmenting_ilabs,3.0.7,60.03626191272395,
+,,,,None,,,,,,,28325,001,2019_May_08_1600,segmenting_ilabs,3.0.7,60.03626191272395,
+,,,,,"['space', 'space', 'space', 'space', 'space', 'space', 'space']","[0.967976699990686, 24.600901799974963, 69.66910780000035, 89.4348839999875, 102.88284219999332, 136.3673077999847, 156.4845550999744]",,,,,28325,001,2019_May_08_1600,segmenting_ilabs,3.0.7,60.03626191272395,
+,,,,,,,None,,,,28325,001,2019_May_08_1600,segmenting_ilabs,3.0.7,60.03626191272395,
+,,,,,,,,"['space', 'space', 'space', 'space', 'space', 'space', 'space', 'space', 'space']","[0.7676295000128448, 12.384931800013874, 15.984833900001831, 28.283537600014824, 62.69913500000257, 92.03390510001918, 125.80048990005162, 151.58382070000516, 179.84976120002102]",,28325,001,2019_May_08_1600,segmenting_ilabs,3.0.7,60.03626191272395,
+,,,,,,,,,,None,28325,001,2019_May_08_1600,segmenting_ilabs,3.0.7,60.03626191272395,

@@ -1,0 +1,153 @@
+15.0982 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1920, 1080]. Using actual size
+16.7904 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, args=UNKNOWN, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([0., 0., 0.]), colorSpace='rgb', fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000010A9C3ED898>, gamma=None, kwargs=UNKNOWN, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x0000010A9DCA21D0>, multiSample=False, name='window1', numSamples=2, pos=[0.0, 0.0], screen=0, size=array([1920, 1080]), stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+16.7905 	EXP 	window1: recordFrameIntervals = False
+16.9557 	EXP 	window1: recordFrameIntervals = True
+17.1382 	EXP 	window1: recordFrameIntervals = False
+17.4928 	EXP 	Created txt_instrcution = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='txt_instrcution', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=array([255., 255., 255.]), text=str(...), units='height', win=Window(...), wrapWidth=1)
+17.5186 	EXP 	Created txt_imi = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='txt_imi', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=array([255., 255., 255.]), text='+', units='height', win=Window(...), wrapWidth=1)
+19.0189 	EXP 	Created movie2_video = MovieStim3(__class__=<class 'psychopy.visual.movie3.MovieStim3'>, autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=0.0, filename='stimuliSet\\v5\\seg\\v5_comb.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie2_video', noAudio=True, opacity=1.0, ori=0, pos=array([0., 0.]), size=array([480., 352.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+19.0209 	EXP 	Created txt_imi = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='txt_imi', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=array([255., 255., 255.]), text='+', units='height', win=Window(...), wrapWidth=1)
+19.1200 	EXP 	Created movie3_seg = MovieStim3(__class__=<class 'psychopy.visual.movie3.MovieStim3'>, autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=-2.0, filename='stimuliSet\\v7\\seg\\v7_comb.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie3_seg', noAudio=True, opacity=1.0, ori=0, pos=array([0., 0.]), size=array([480., 360.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+19.1263 	EXP 	movie2_video: movie = 'stimuliSet\\v5\\seg\\v5_comb.avi'
+19.1263 	EXP 	movie2_video: autoLog = True
+19.1263 	EXP 	movie3_seg: movie = 'stimuliSet\\v7\\seg\\v7_comb.avi'
+19.1263 	EXP 	movie3_seg: autoLog = True
+19.1263 	EXP 	txt_instrcution: autoDraw = True
+47.7896 	DATA 	Keypress: space
+47.9330 	EXP 	Created movie1_video = MovieStim3(__class__=<class 'psychopy.visual.movie3.MovieStim3'>, autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=-2.0, filename='stimuliSet\\v1\\seg\\v1_comb.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie1_video', noAudio=True, opacity=1.0, ori=0, pos=array([0., 0.]), size=array([480., 352.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+47.9433 	EXP 	txt_instrcution: autoDraw = False
+47.9433 	EXP 	movie1_video: movie = 'stimuliSet\\v1\\seg\\v1_comb.avi'
+47.9433 	EXP 	movie1_video: autoLog = True
+47.9433 	EXP 	movie1_video: autoDraw = True
+51.4238 	DATA 	Keypress: space
+57.5882 	DATA 	Keypress: space
+70.5229 	DATA 	Keypress: space
+71.5926 	DATA 	Keypress: space
+76.2896 	DATA 	Keypress: space
+81.2061 	DATA 	Keypress: space
+83.2895 	DATA 	Keypress: space
+88.3569 	DATA 	Keypress: space
+91.0729 	DATA 	Keypress: space
+93.2896 	DATA 	Keypress: space
+94.5727 	DATA 	Keypress: space
+97.9562 	DATA 	Keypress: space
+100.9896 	DATA 	Keypress: space
+116.9070 	DATA 	Keypress: space
+118.1402 	DATA 	Keypress: space
+123.1736 	DATA 	Keypress: space
+126.3063 	DATA 	Keypress: space
+130.4591 	DATA 	Keypress: space
+131.6573 	DATA 	Keypress: space
+134.5728 	DATA 	Keypress: space
+135.9240 	DATA 	Keypress: space
+138.1237 	DATA 	Keypress: space
+144.0259 	DATA 	Keypress: space
+146.2228 	DATA 	Keypress: space
+147.7925 	DATA 	Keypress: space
+149.4241 	DATA 	Keypress: space
+155.9728 	DATA 	Keypress: space
+183.0062 	DATA 	Keypress: space
+186.3736 	DATA 	Keypress: space
+192.7726 	DATA 	Keypress: space
+196.1928 	DATA 	Keypress: space
+199.3395 	DATA 	Keypress: space
+203.3062 	DATA 	Keypress: space
+213.7896 	DATA 	Keypress: space
+218.8905 	DATA 	Keypress: space
+230.4235 	DATA 	Keypress: space
+232.5555 	EXP 	movie1_video: autoDraw = False
+232.5555 	EXP 	movie1_video: autoDraw = False
+232.5555 	EXP 	txt_imi: autoDraw = True
+235.5557 	EXP 	txt_imi: autoDraw = False
+235.5557 	EXP 	txt_imi: autoDraw = False
+235.5557 	EXP 	movie2_video: autoDraw = True
+239.9236 	DATA 	Keypress: space
+246.7396 	DATA 	Keypress: space
+251.1729 	DATA 	Keypress: space
+254.4729 	DATA 	Keypress: space
+260.7727 	DATA 	Keypress: space
+263.3394 	DATA 	Keypress: space
+267.6068 	DATA 	Keypress: space
+269.2394 	DATA 	Keypress: space
+271.6067 	DATA 	Keypress: space
+274.0895 	DATA 	Keypress: space
+280.1069 	DATA 	Keypress: space
+281.9893 	DATA 	Keypress: space
+284.6233 	DATA 	Keypress: space
+289.4894 	DATA 	Keypress: space
+291.0226 	DATA 	Keypress: space
+295.3902 	DATA 	Keypress: space
+298.2727 	DATA 	Keypress: space
+303.4894 	DATA 	Keypress: space
+305.5560 	DATA 	Keypress: space
+309.2404 	DATA 	Keypress: space
+310.6068 	DATA 	Keypress: space
+315.0260 	DATA 	Keypress: space
+325.0556 	DATA 	Keypress: space
+331.9727 	DATA 	Keypress: space
+339.4564 	DATA 	Keypress: space
+350.4401 	DATA 	Keypress: space
+358.8572 	DATA 	Keypress: space
+370.4894 	DATA 	Keypress: space
+379.3566 	DATA 	Keypress: space
+392.2225 	DATA 	Keypress: space
+394.2560 	DATA 	Keypress: space
+395.7924 	DATA 	Keypress: space
+402.2589 	DATA 	Keypress: space
+411.2225 	DATA 	Keypress: space
+420.4588 	DATA 	Keypress: space
+423.3227 	DATA 	Keypress: space
+425.5893 	DATA 	Keypress: space
+428.3392 	DATA 	Keypress: space
+429.6552 	EXP 	movie2_video: autoDraw = False
+429.6552 	EXP 	movie2_video: autoDraw = False
+429.6552 	EXP 	txt_imi: autoDraw = True
+432.6553 	EXP 	txt_imi: autoDraw = False
+432.6553 	EXP 	txt_imi: autoDraw = False
+432.6553 	EXP 	movie3_seg: autoDraw = True
+438.8565 	DATA 	Keypress: space
+442.4062 	DATA 	Keypress: space
+444.2226 	DATA 	Keypress: space
+447.3569 	DATA 	Keypress: space
+456.1233 	DATA 	Keypress: space
+458.4559 	DATA 	Keypress: space
+467.6734 	DATA 	Keypress: space
+474.1567 	DATA 	Keypress: space
+477.9725 	DATA 	Keypress: space
+480.4574 	DATA 	Keypress: space
+483.7924 	DATA 	Keypress: space
+485.4066 	DATA 	Keypress: space
+489.7558 	DATA 	Keypress: space
+494.0225 	DATA 	Keypress: space
+498.3393 	DATA 	Keypress: space
+504.1734 	DATA 	Keypress: space
+510.1726 	DATA 	Keypress: space
+515.2403 	DATA 	Keypress: space
+519.7559 	DATA 	Keypress: space
+523.5226 	DATA 	Keypress: space
+527.6052 	DATA 	Keypress: space
+536.2560 	DATA 	Keypress: space
+540.1070 	DATA 	Keypress: space
+544.1566 	DATA 	Keypress: space
+547.7392 	DATA 	Keypress: space
+550.0226 	DATA 	Keypress: space
+551.0892 	DATA 	Keypress: space
+552.5059 	DATA 	Keypress: space
+555.6233 	DATA 	Keypress: space
+560.3720 	DATA 	Keypress: space
+568.1566 	DATA 	Keypress: space
+577.3732 	DATA 	Keypress: space
+581.9923 	DATA 	Keypress: space
+586.7893 	DATA 	Keypress: space
+591.7893 	DATA 	Keypress: space
+598.5725 	DATA 	Keypress: space
+604.3392 	DATA 	Keypress: space
+611.1058 	DATA 	Keypress: space
+620.7224 	DATA 	Keypress: space
+628.6255 	DATA 	Keypress: space
+637.3228 	DATA 	Keypress: space
+640.3223 	DATA 	Keypress: space
+643.9894 	DATA 	Keypress: space
+648.3558 	DATA 	Keypress: space
+649.8560 	DATA 	Keypress: space
+654.1019 	EXP 	window1: mouseVisible = True

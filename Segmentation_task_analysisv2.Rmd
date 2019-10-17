@@ -1,0 +1,122 @@
+---
+title: "Segmentation Analysis"
+output: html_document
+---
+# Segmentation Analysis
+
+ This script opens and analyses on the segmentation task: 
+1) open csv file and store as a data.frame
+2) organize data in data.frame to extract keypresses
+3) get a frequency of key presses for each video per participant
+Note: removed subject 28303
+To-do:
+* Fix ending time for one of the videos[Teddy will do this]
+
+* What are the properties of the three videos? Properties?
+* Which video should we use for analysis? all 3
+* How did Anna use the videos? frequency of event segmentation was assessed across all 3 videos
+* Which brain regions corresponding to EEG electrode placement is relevant to look at for longterm/episodic memory and working memory? --> 01 & 02 for EEG alpha
+* Individual electrode powers or networks? Individual -  according to Chantel
+
+
+
+
+```{r set-up, message=FALSE}
+#rm(list = ls())
+library(jsonlite)
+library(stringr)
+library(matlab)
+```
+
+```{r initial analysis}
+#library(tidyverse)
+subject = c()
+#read data file
+data.files <- list.files('raw_data/', pattern = '.csv')
+
+n.participants <- length(data.files)
+n.videos <- 3 # participants watch 3 videos
+#initialize variable as a list
+subject.segs <- c()
+subject.vid.ord <- c()
+#loop through all participants
+i = 1
+for (p in data.files) {
+subject[i] = str_sub(p, 1,5) %>% as.numeric()
+seg.data = read.csv(file = paste0('raw_data/', p))
+#What keys were pressed
+#What and when event happend (when did the instructions end, when did the videos start etc)
+#When were the keys pressed by participant
+#How long are the videos? 
+vid.length =c(201, 210, 237) #video lengths in seconds for v1, v5, and v7
+##  extracting data from the segmentation data file
+#first use a pattern to find the reaction times
+pattern = "[0-9]"
+#use regExp function grep to exrtact the reaction times
+  #grep(pattern,seg.data$key_resp1_seg.rt, value = TRUE)
+# use fromJSON function to convert to numerical data
+#fromJSON(grep(pattern,seg.data$key_resp1_seg.rt, value = TRUE))
+
+
+#parse log for end times - we could have probably just done this by eye but that's not fun...
+#read in log file
+log.temp <- read.delim(file =  paste0('raw_data/', substring(p, 1, str_length(p) - 3),'log'), 
+                       header = F, sep = "\t")
+
+vid1.i <- str_detect(log.temp$V3, 'movie1_video: movie') #find entry for video 1
+vid2.i <- str_detect(log.temp$V3, 'movie2_video: movie') #find entry for video 2
+vid3.i <- str_detect(log.temp$V3, 'movie3_seg: movie') #find entry for video 3
+
+vid1 <- substring(log.temp$V3[vid1.i], 20,50) %>% str_extract(., "v.")
+vid2 <- substring(log.temp$V3[vid2.i], 20,50) %>% str_extract(., "v.")
+vid3 <- substring(log.temp$V3[vid3.i], 20,50) %>% str_extract(., "v.")
+
+subject.vid.ord<- c(subject.vid.ord, vid1, vid2, vid3)   
+                    
+vid1.segments.rt <-  c(0, fromJSON(grep(pattern, seg.data$key_resp1_seg.rt, value = TRUE)))
+vid2.segments.rt <-  c(0, fromJSON(grep(pattern, seg.data$key_resp2_seg.rt, value = TRUE)))
+vid3.segments.rt <-  c(0, fromJSON(grep(pattern, seg.data$key_resp3_seg.rt, value = TRUE)))
+     
+subject.segs <- c(subject.segs,
+                     length(vid1.segments.rt) - sum(diff(vid1.segments.rt) < .1),
+                     length(vid2.segments.rt) - sum(diff(vid2.segments.rt) < .1),
+                     length(vid3.segments.rt) - sum(diff(vid3.segments.rt) < .1))
+                  
+i = i+1                      
+#participant.data <- append(participant.data, data.temp)  
+
+}
+subject.segments.tmp <- subject.segs %>% as.matrix() %>% reshape(., n.videos, n.participants) %>% t()
+subject.vid.order <- subject.vid.ord %>% as.matrix() %>%  reshape(., n.videos, n.participants) %>% t()
+
+#m[order(m[,1]),]
+#Sort segmentation in order of V1, V5, V7
+subject.segments.ord = c()
+
+for (r in c(1:n.participants)) {
+  
+subject.segments.ord <- c(subject.segments.ord, subject.segments.tmp[r, order(subject.vid.order[r, ])])
+}
+
+
+subject.segments <- data.frame('subject' = subject,
+                                'V' = subject.segments.ord %>% as.matrix() %>% reshape(.,  n.videos, n.participants) %>% t()
+                                )
+
+if(0) {
+  write.csv(subject.segments,'./processed/segmentation_by_subject.csv',row.names = F)
+}
+```
+
+## Results 
+- EEG data starts at pink column
+- Data starts with theta 
+- **Power**:amplitude of waveform within a given freq. band.
+- anatomy of a column title :*electrodeLocation_freq.band_power/coh_training_peak-standard_eyesclosed*
+- IAF : interALPHAFrequency
+- Odd numbered channels are always on the left
+- Laterality is the inter-hemispheric difference in power
+- LeftFrontoTemporal, RFT, RPosterior, LateralParietal, MedialFrontal
+- Start with O1 and O2 which have the highest alpha power. Correlate with measures of interest. 
+
+
