@@ -1,0 +1,377 @@
+---
+title: "alpha and segmentation analysis"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: "Savannah C."
+
+output:
+  html_document:
+    code_folding: hide
+    df_print: kable
+    number_sections: no
+    toc: yes
+    toc_float: yes
+---
+ 
+```{r, echo=FALSE}
+#pdf_document:
+#    df_print: kable
+#    fig_caption: yes 
+```
+ 
+ 
+```{r initialize, warning=FALSE, message=FALSE, echo=FALSE}
+#ouput: html_document
+rm(list = ls())
+library(readxl)
+#library(tidyverse)
+library(ggplot2)
+library(stringr)
+library(psych)
+library(tibble)
+library(knitr)
+library(reshape2)
+library(MASS)
+```
+
+
+```{r import segmentation data, echo=F}
+segment.dat <- read.csv('./processed/results/segmentation_by_subject.csv')
+subjects <- segment.dat$subject
+
+
+```
+
+```{r import data, echo=F}
+if (0) {
+# Import EEG resting state data for alpha band in channels O1 and O2. Turn on only if changing anything in the following code
+EEG.data <- read_excel('../AllSubj_AcrossCohorts_AllEEG_8.7.19.xlsx')
+EEG.data.alpha <- EEG.data[ , c(1,2,4,172,173,178,179,1412, 1413, 1418,1419)]
+uclimb.psychometrics <- EEG.data[ , c(1,76, 115,119,125)]
+write.csv(EEG.data.alpha, '~/google-drive/CCDL Shared/Shared/Savannah/staem_analysis/processed/alpha_only_EEG_data.csv', row.names = F)
+write.csv(uclimb.psychometrics, '~/google-drive/CCDL Shared/Shared/Savannah/staem_analysis/processed/uclimb_wm_ravens_data.csv', row.names = F)
+}
+
+EEG.data.alpha <- read.csv('./processed/alpha_only_EEG_data.csv')
+
+index.subjects  = !is.na(match(as.numeric(EEG.data.alpha$OLCTS.Expt..), subjects)) | 
+  !is.na(match(as.numeric(EEG.data.alpha$Python.Expt..), subjects))
+
+uclimb.psychometrics <- read.csv('./processed/uclimb_wm_ravens_data.csv')[index.subjects,3:6 ]
+
+uclimb.psychometrics$compositeWM <- rowMeans(uclimb.psychometrics[,2:4]) 
+uclimb.psychometrics$subject <- subjects
+# range  = c("A1:B55","FP1:FQ55", "FV1:FW55", "BBH1:BBI55", "BBK1:BBL55"))
+#'FS1:FS55','BBE1:BBE55',
+
+```
+
+
+```{r join data, echo=FALSE}
+
+alpha.dat <- cbind(O1_IAF_power_closed = rowMeans(EEG.data.alpha[index.subjects, c("O1_IAF_Power_OLCTS_StandardBand_Closed", 
+                                                                                   "O1_IAF_Power_Python_StandardBand_Closed")], na.rm = T),
+                   O2_IAF_power_closed = rowMeans(EEG.data.alpha[index.subjects, c("O2_IAF_Power_OLCTS_StandardBand_Closed",
+                                                                                   "O2_IAF_Power_Python_StandardBand_Closed")], na.rm = T),
+                   O1_IAF_closed = rowMeans(EEG.data.alpha[index.subjects, c("O1_IAF_OLCTS_StandardBand_Closed", 
+                                                                             "O1_IAF_Python_StandardBand_Closed")], na.rm = T),
+                   O2_IAF_closed = rowMeans(EEG.data.alpha[index.subjects, c("O2_IAF_OLCTS_StandardBand_Closed", 
+                                                                             "O2_IAF_Python_StandardBand_Closed")], na.rm = T))
+
+over.segment = ifelse(scale(segment.dat[,2:4]) > 1,1,0 )
+under.segment = ifelse(scale(segment.dat[,2:4]) < -1,-1,0 )
+
+segmenter = over.segment + under.segment
+norm.segmenter.p = 1-(rowSums(segmenter!=0) / 3) 
+# assign probability of a participant being normal segmenter or over/under segmenter
+alpha_and_seg <- cbind(segment.dat, age = EEG.data.alpha$Age[index.subjects], alpha.dat, norm.segmenter.p) #this contains the segmentation and alpha in one table
+
+
+
+
+
+#save data to text file
+if (0){
+write.csv(cbind(segment.dat, EEG.data.alpha[index.subjects, 3:9 ]),'./processed/segmentation_EEG_data.csv', row.names = F)
+}
+
+```
+
+## uCLIMB subjects results
+
+### Description of Segmentation data
+```{r ratio of normal to outlying segmenters, echo=F}
+  seg.ratio <- (21-colSums(segmenter!=0)) / (colSums(segmenter!=0))
+  seg.ratio.tot <- sum(21-colSums(segmenter!=0)) / sum(colSums(segmenter!=0))
+```
+ 
+  - Video 1: the ratio of normal segmenters to outlying segmenters is `r seg.ratio[1]`.
+  - Video 2: the ratio of normal segmenters to outlying segmenters is `r seg.ratio[2]`. 
+  - Video 3: the ratio of normal segmenters to outlying segmenters is `r seg.ratio[3]`.
+  - A ratio of `r seg.ratio.tot` across all videos.
+  
+  **Jafarpour's ratio is `r 22/14` across videos ** This suggests that our data is not represetative of what the typical space of segmentation performance is when compared to Jaffarpour's data. But this may be due to differences in data collection: participants viewed videos only once in our experiment. 
+  
+  The first and third videos have an overarching storyline while the second video does not. Participants segmented movie 1 the most in Jafarpour's study at 13.45 events (SD = 8.86), while movie 2 was segmented into 9.78 events (SD = 5.8), and movie 3 into 11.27 events (SD = 8.01). We predicted our participants will similarly segment movie 1 the most, followed by movie 3 and movie 2, respectively.
+  This is very different from the data we collected (see summary table below). We suspect that this may be because our participants viewed the videos only once during segmentation. 
+
+ 
+ 
+```{r table of descriptives, echo=F, fig.cap='Table 1: Descriptive statistics of segmentation behavior for Video 1, 2 and 3. ' }
+d.table1=describe(segment.dat[,2:4], fast=T)
+d.table1[, 2:length(d.table1)] %>% kable(.)
+
+
+#segment.dat %>%  melt(id.vars='subject') %>% ggplot(aes(variable, value, fill=variable)) + geom_bar(stat=average) +
+ # scale_fill_brewer(palette = "Set2", ) + theme_classic(base_size = 18) 
+```
+
+Consistency of segmenter behavior across videos:
+
+Jafarpour's correlations were:
+
+- movie 1 vs movie 2: r = 0.85, p < 0.001
+- movie 2 vs movie 3: r = 0.86, p < 0.001
+- movie 1 vs movie 3: r = 0.71, p < 0.001
+
+Our group segmentation behavior, on the other hand, was not as expected: Segmentation behavior was not consistent across videos. 
+
+Table of correlations using the spearman ranked test:
+
+```{r}
+segmenter.cons <- corr.test(segment.dat[,2:4], method = 'spearman', adjust = 'holm')
+segmenter.cons$r %>% as.data.frame() %>% kable(.)
+```
+
+Table of p-values: 
+
+```{r, echo= F}
+segmenter.cons$p %>% as.data.frame() %>% kable(.)
+```
+
+  
+
+```{r prelim plots, echo=F, message=F, warning=FALSE}
+#histogram of segmentation per video
+alpha_and_seg[, 1:4]%>% scale() %>% as.data.frame() %>%  melt(id.vars = 'subject' ) %>% ggplot(aes(value, fill=variable)) + 
+  geom_density(alpha = 0.7) +
+ # geom_density(aes(V.2, fill='Video2'), alpha = 0.7) + 
+#  geom_density(aes(V.3, fill ='Video3'), alpha = 0.7) +
+  xlim(c(-4,4)) +
+  xlab('z.score of segmenting behavior') +
+ # scale_fill_discrete(name = 'Video') +
+  geom_vline(aes(xintercept = 1), linetype ='dashed') +
+  geom_vline(aes(xintercept = -1), linetype ='dashed') +
+  annotate("text", x=1.9, y=0.5, label= "Over\nsegmenters ->", alpha=.7) + 
+  annotate("text", x = -1.9, y=.45, label = " Under\n<-segmenters", alpha=.7) +
+scale_fill_brewer(palette = "Set2", name = 'Video') + theme_classic(base_size = 18) 
+ #color over and under segmenters on histogram and provide counts
+
+```
+
+There is a lot of skew in these data: we'll be using nonparametric tests (Wilcoxon Ranked-sum test, Spearman correlation etc). 
+
+For our planned analyses, we're assuming no difference between videos and taking the sum of number of segments to categorize subjects in to normative segmenters and atypical segmenters. Thoughts? 
+
+
+```{r, warning=F, echo=F, message=F}
+rowSums(alpha_and_seg[, 2:4]) %>% scale() %>% as.data.frame() %>% 
+  ggplot(aes(V1, fill=V1)) +  geom_histogram(alpha = 0.7) +
+   xlim(c(-4,4)) +
+  xlab('z.score of total number of segments') +
+  scale_fill_discrete(name = 'Video') +
+  geom_vline(aes(xintercept = 1), linetype ='dashed') +
+  geom_vline(aes(xintercept = -1), linetype ='dashed') +
+  annotate("text", x=2.3, y=2.5, label= "Over\nsegmenters", alpha=.7) + 
+  annotate("text", x = -2.3, y=2.5, label = " Under\nsegmenters", alpha=.7) +
+scale_fill_brewer(palette = "Set2", name = 'Video') + theme_classic(base_size = 18) 
+  
+  
+
+```
+
+Most of our participants fall in the *normative segmenter* group with very few over and under segmenters. 
+
+### Part 1: How do the psychometric measures relate to eachother? Do they reflect our expectations as dictated by literature?
+
+Note: Composite working memory score was computed by averaging Symmetry span, Operation span and Reading span tasks. 
+```{r descriptives psychometrics, echo=FALSE}
+d.table2=describe(uclimb.psychometrics[1:5], fast = T )
+d.table2[,2:length(d.table2)] %>% kable(.)
+
+```
+
+  
+  Density plots of z-scored Ravens and Working memory measures:
+```{r descriptives psychometrics plots, echo=F}
+uclimb.psychometrics[, c(1,5,6)]  %>% scale() %>% as.data.frame() %>% melt(id.vars='subject') %>% 
+  ggplot(aes(value, fill=variable)) + geom_density(alpha=0.7) +
+  xlim(c(-4,4)) + xlab('z-score of performance') +
+  scale_fill_brewer(palette = "RdBu", guide =F) + theme_classic(base_size = 18 ) + facet_grid(variable ~ .)
+
+
+
+
+```
+
+
+```{r ravens-vs-wm}
+cbind(uclimb.psychometrics, tot.seg=rowSums(segment.dat[,2:4]) )%>% 
+  scale() %>% as.data.frame() %>% 
+  ggplot(aes(compositeWM,Ravens.Score)) +
+  geom_point() + geom_smooth(method = 'lm') +
+  xlab('Composite WM (z-scored)')+
+ #geom_tile(('Correlation of total segmentation vs ravens score') ) +
+  theme_classic(base_size = 18 )
+```
+
+As expected, Ravens and the composite working memory scores were positively correlated (spearman's r:`r cor(uclimb.psychometrics[,1], uclimb.psychometrics[, 5])`).
+
+
+We would expect that normative segmenters would have higher raven's score because normal segmentation predicts better memory performance (and Raven's and Working memory are closely related).  
+```{r psychometrics correlations table and plots, echo=F}
+cbind(uclimb.psychometrics, tot.seg=rowSums(segment.dat[,2:4]) )%>% 
+  scale() %>% as.data.frame() %>% 
+  ggplot(aes(tot.seg,Ravens.Score)) +
+  geom_point() + geom_smooth(method = 'lm') +
+  xlab('Z-scored total number of segments')+
+ #geom_tile(('Correlation of total segmentation vs ravens score') ) +
+  theme_classic(base_size = 18 )
+
+
+```
+
+
+```{r psychometrics correlations, echo=F}
+cbind(uclimb.psychometrics, tot.seg=rowSums(segment.dat[,2:4]) )%>% 
+  scale() %>% as.data.frame() %>% 
+  ggplot(aes(tot.seg,compositeWM)) +
+  geom_point() + geom_smooth(method = 'lm') +
+  xlab('Z-scored total number of segments')+
+ #geom_tile(('Correlation of total segmentation vs ravens score') ) +
+  theme_classic(base_size = 18 )
+
+
+```
+  
+
+Table of correlation values: 
+
+```{r }
+ravens.wm.seg <- cbind(uclimb.psychometrics[,c(1,5)], total.segments=rowSums(segment.dat[,2:4]) )%>% 
+   corr.test(., method = 'spearman', adjust = 'holm')
+  
+  ravens.wm.seg$r %>% as.data.frame() %>% kable(.)
+
+
+```
+
+
+Table of p-values for correlations above:
+```{r pvals for corrs}
+ ravens.wm.seg$p %>% as.data.frame() %>% kable(.)
+```
+
+It seems like there is a slight positive, linear relationship between Raven's and segmentation. This was unexpected. We had predicted that normative segmenters would have higher Raven's Scores while under and over segmenters had lower Raven's scores (inverted 'U' relationship). We perhaps need more data to say with any certainty but it could also be because the participants saw the videos only once (One possibility is that people may make more segments when they watch the videos the first time as an advantageous strategy in order to keep track of information before compiling them into relevant condensed segments. They would probably report only those condensed events if they viewed the videos a second time).
+
+ 
+### Part 2: Does alpha frequency relate to segmentation? 
+
+#### Alpha frequency: 
+
+Alpha frequency is traditionally measured between 7.5 and 12.5 Hz. Young adults in their 20’s have an average IAF (individual alpha frequency, frequency of the peak) of 10.89 Hz with a typical range between 9.5 and 11.5 Hz. EEG detects the most pronounced alpha frequency levels in the occipital region. Therefore, we plan to primarily focus on 2 channels, O1 and O2, and assess for IAF and IAF power (the power at peak) at each channel. 
+
+Our prediction is that normative segmenters would have higher alpha because this predicts better working memory performance (Klimesch, 1999). 
+
+Note: The mean frequencies for the OLCTS and PYTHON groups were used for those instances where there are 2 datapoints
+
+
+
+```{r alpha power descriptives, warning=F, echo=F, message=F}
+over.segment.tot = ifelse(scale(rowSums(segment.dat[,2:4])) > 1, 1, 0 )
+under.segment.tot = ifelse(scale(rowSums(segment.dat[,2:4])) < -1, -1, 0 )
+segmenter.tot.temp = over.segment.tot + under.segment.tot
+
+segmenter.tot = segmenter.tot.temp
+segmenter.tot[segmenter.tot.temp > 0] <- 'Over' 
+segmenter.tot[segmenter.tot.temp == 0] <- 'Normative'
+segmenter.tot[segmenter.tot.temp < 0] <- 'Under' 
+
+cbind(IAFo1o2 = rowMeans(alpha_and_seg[, c(8,9)]),tot.seg=rowSums(alpha_and_seg[, 2:4]))  %>% 
+  scale() %>% as.data.frame() %>% cbind(subjects= alpha_and_seg[,1], seg.ID = segmenter.tot) %>% 
+  ggplot(aes(IAFo1o2, fill=factor(seg.ID))) +  geom_density(alpha = 0.7) +
+   xlim(c(-4,4)) +
+  xlab('z.score of IAF') +
+scale_fill_brewer(palette = "Set2", name = 'Segmenter') + theme_classic(base_size = 18) 
+
+cbind(IAFo1o2 = rowMeans(alpha_and_seg[, c(6,7)]),tot.seg=rowSums(alpha_and_seg[, 2:4]))  %>% 
+  scale() %>% as.data.frame() %>% cbind(subjects= alpha_and_seg[,1], seg.ID = segmenter.tot) %>% 
+  ggplot(aes(IAFo1o2, fill=factor(seg.ID))) +  geom_density(alpha = 0.7) +
+   xlim(c(-4,4)) +
+  xlab('z.score of IAF power') +
+
+scale_fill_brewer(palette = "Set2", name = 'Segmenter') + theme_classic(base_size = 18) 
+```
+
+#### Alpha vs working memory and Raven's 
+We predicted a positive correlation with alpha for both working memory and Raven's. Our findings are that working memory and Raven's are both positively correlated with IAF (individual alpha frequency), but we did not find a relationship with IAF_power. 
+```{r alpha vs Ravens, echo=F, warning=F, message=F}
+cbind(IAF_power = rowMeans(alpha_and_seg[, c(6,7)]), IAF = rowMeans(alpha_and_seg[, c(8,9)]),Ravens.Score=uclimb.psychometrics[,c(1)])  %>% 
+  scale() %>% as.data.frame() %>%   melt(id.vars = c('Ravens.Score' )) %>%
+  ggplot(aes(Ravens.Score,value, group=variable)) +
+  geom_point() + geom_smooth(method = 'lm') +
+  xlab('Ravens Score (z-scored)')+
+  ylab('Frequency (z-scored)')+
+ #geom_tile(('Correlation of total segmentation vs ravens score') ) +
+  theme_classic(base_size = 18 ) + facet_grid(cols = vars(variable))#variable,variable ~ .)
+```
+
+```{r alpha vs wm,  echo=F, warning=F, message=F}
+cbind(IAF_power = rowMeans(alpha_and_seg[, c(6,7)]), IAF = rowMeans(alpha_and_seg[, c(8,9)]),CompositeWM = uclimb.psychometrics[,c(5)])  %>% 
+  scale() %>% as.data.frame() %>%   melt(id.vars = c('CompositeWM' )) %>%
+  ggplot(aes(CompositeWM,value, group=variable)) +
+  geom_point() + geom_smooth(method = 'lm') +
+  xlab('Composite working memory score (z-scored)')+
+  ylab('Frequency (z-scored)')+
+ #geom_tile(('Correlation of total segmentation vs ravens score') ) +
+  theme_classic(base_size = 18 ) + facet_grid(cols = vars(variable))#variable,variable ~ .)
+```
+
+
+
+
+```{r}
+
+```
+
+
+#### Correlation of Alpha with segmentation behavior 
+
+We predict that both under segmenters and over segmenters would have lower alpha frequency.
+```{r, echo=F, warning=F, message=F}
+cbind(IAF_power = rowMeans(alpha_and_seg[, c(6,7)]), IAF = rowMeans(alpha_and_seg[, c(8,9)]),tot.seg=rowSums(alpha_and_seg[, 2:4]))  %>% 
+  scale() %>% as.data.frame() %>%   melt(id.vars = 'tot.seg' ) %>%
+  ggplot(aes(tot.seg,value, group=variable)) +
+  geom_point() + geom_smooth(method = 'lm') +
+  xlab('Z-scored total number of segments')+
+  ylab('Frequency (z-scored)')+
+ #geom_tile(('Correlation of total segmentation vs ravens score') ) +
+  theme_classic(base_size = 18 ) + facet_grid(cols = vars(variable))#variable,variable ~ .)
+
+```
+
+
+From the data we have, there is no significant relationship either with IAF_power or IAF and segmentation. This was not as we had predicted (that normative segmenters would have comparatively higher IAF and IAF_power).
+
+
+### Planned analyses
+
+- does segmentation behavior matter based on which video was viewed first? Do subjects get used to the task and segment less? 
+- Non-parametric hypothesis test to test group differences of Normative, over and under segmenters in alpha, Raven's and wm.  
+
+
+```{r}
+
+```
+
+
+
