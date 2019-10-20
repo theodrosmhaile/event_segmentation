@@ -1,20 +1,25 @@
 ---
 title: "Segmentation Analysis"
-output: html_document
+output: 
+    html_document:
+      code_folding: hide
 ---
-# Segmentation Analysis
+## Segmentation Analysis
 
- This script opens and analyses on the segmentation task: 
+ This script opens and analyses the segmentation task: 
 1) open csv file and store as a data.frame
 2) organize data in data.frame to extract keypresses
 3) get a frequency of key presses for each video per participant
 Note: removed subject 28303
+
 To-do:
-* Fix ending time for one of the videos[Teddy will do this]
+
+Questions for Savannah:
 
 * What are the properties of the three videos? Properties?
 * Which video should we use for analysis? all 3
-* How did Anna use the videos? frequency of event segmentation was assessed across all 3 videos
+* How did Anna use the videos? 
+frequency of event segmentation was assessed across all 3 videos
 * Which brain regions corresponding to EEG electrode placement is relevant to look at for longterm/episodic memory and working memory? --> 01 & 02 for EEG alpha
 * Individual electrode powers or networks? Individual -  according to Chantel
 
@@ -26,19 +31,26 @@ To-do:
 library(jsonlite)
 library(stringr)
 library(matlab)
+library(tidyverse)
+library(reshape2)
+library(gridExtra)
 ```
 
 ```{r initial analysis}
-#library(tidyverse)
+#
 subject = c()
 #read data file
 data.files <- list.files('raw_data/', pattern = '.csv')
 
 n.participants <- length(data.files)
 n.videos <- 3 # participants watch 3 videos
-#initialize variable as a list
+#initialize variable
 subject.segs <- c()
 subject.vid.ord <- c()
+subject.keyPresses <- list()
+subject.keyPresses.v1 <- list()
+subject.keyPresses.v2 <- list()
+subject.keyPresses.v3 <- list()
 #loop through all participants
 i = 1
 for (p in data.files) {
@@ -65,26 +77,34 @@ log.temp <- read.delim(file =  paste0('raw_data/', substring(p, 1, str_length(p)
 
 vid1.i <- str_detect(log.temp$V3, 'movie1_video: movie') #find entry for video 1
 vid2.i <- str_detect(log.temp$V3, 'movie2_video: movie') #find entry for video 2
-vid3.i <- str_detect(log.temp$V3, 'movie3_seg: movie') #find entry for video 3
+vid3.i <- str_detect(log.temp$V3, 'movie3_seg: movie')   #find entry for video 3
 
 vid1 <- substring(log.temp$V3[vid1.i], 20,50) %>% str_extract(., "v.")
 vid2 <- substring(log.temp$V3[vid2.i], 20,50) %>% str_extract(., "v.")
 vid3 <- substring(log.temp$V3[vid3.i], 20,50) %>% str_extract(., "v.")
 
 subject.vid.ord<- c(subject.vid.ord, vid1, vid2, vid3)   
-                    
+temp.vid.ord <-   c( vid1, vid2, vid3)                
 vid1.segments.rt <-  c(0, fromJSON(grep(pattern, seg.data$key_resp1_seg.rt, value = TRUE)))
 vid2.segments.rt <-  c(0, fromJSON(grep(pattern, seg.data$key_resp2_seg.rt, value = TRUE)))
 vid3.segments.rt <-  c(0, fromJSON(grep(pattern, seg.data$key_resp3_seg.rt, value = TRUE)))
      
+#Find and exclude rapid key presses
 subject.segs <- c(subject.segs,
                      length(vid1.segments.rt) - sum(diff(vid1.segments.rt) < .1),
                      length(vid2.segments.rt) - sum(diff(vid2.segments.rt) < .1),
                      length(vid3.segments.rt) - sum(diff(vid3.segments.rt) < .1))
                   
-i = i+1                      
-#participant.data <- append(participant.data, data.temp)  
+                    
+#save all key presses
+temp_list = list(vid1.segments.rt,vid2.segments.rt,vid3.segments.rt)
+subject.keyPresses[i] <-  list(list(temp_list[order(temp.vid.ord)]))
 
+subject.keyPresses.v1[i] <- list(temp_list[order(temp.vid.ord)[1]]) # list(vid1.segments.rt)
+subject.keyPresses.v2[i] <- list(temp_list[order(temp.vid.ord)[2]]) # list(vid2.segments.rt)
+subject.keyPresses.v3[i] <- list(temp_list[order(temp.vid.ord)[3]]) # list(vid3.segments.rt)
+
+i = i+1  
 }
 subject.segments.tmp <- subject.segs %>% as.matrix() %>% reshape(., n.videos, n.participants) %>% t()
 subject.vid.order <- subject.vid.ord %>% as.matrix() %>%  reshape(., n.videos, n.participants) %>% t()
@@ -108,12 +128,33 @@ if(0) {
 }
 ```
 
-## Results 
+## raster plots
+```{r, warning=F, message=F, fig.width=8, fig.height=4}
+fig.v3 <- subject.keyPresses.v3 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(shape=3, size=2) +
+  xlab('time(ms)') + ylab('Subject number') + 
+  theme_classic(base_size = 18) + xlim(c(1,250)) + 
+  labs(title='Key presses in Video 3(v7)')
+
+fig.v2 <-subject.keyPresses.v2 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(shape=3, size=2) +
+  xlab('time(ms)') + ylab('Subject number') + 
+  theme_classic(base_size = 18) + xlim(c(1,250)) + 
+  labs(title='Key presses in Video 2(v5)')
+
+fig.v1 <- subject.keyPresses.v1 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(shape=3, size=2) +
+  xlab('time(ms)') + ylab('Subject number') + 
+  theme_classic(base_size = 18) + xlim(c(1,250)) + 
+  labs(title='Key presses in Video 1(v1)')
+
+grid.arrange(fig.v1,fig.v2,fig.v3, nrow = 1, ncol = 3)
+```
+
+
+## Notes on EEG from Malayka
 - EEG data starts at pink column
 - Data starts with theta 
 - **Power**:amplitude of waveform within a given freq. band.
 - anatomy of a column title :*electrodeLocation_freq.band_power/coh_training_peak-standard_eyesclosed*
-- IAF : interALPHAFrequency
+- IAF : individualALPHAFrequency
 - Odd numbered channels are always on the left
 - Laterality is the inter-hemispheric difference in power
 - LeftFrontoTemporal, RFT, RPosterior, LateralParietal, MedialFrontal
