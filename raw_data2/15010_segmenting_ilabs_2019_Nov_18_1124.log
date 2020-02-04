@@ -1,0 +1,35 @@
+7.8857 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1920, 1080]. Using actual size
+8.8697 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, args=UNKNOWN, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([0., 0., 0.]), colorSpace='rgb', fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x000000001A5829E8>, gamma=None, gammaErrorPolicy='raise', kwargs=UNKNOWN, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000000001A5F3A90>, multiSample=False, name='window1', numSamples=2, pos=[0.0, 0.0], screen=0, size=array([1920, 1080]), stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+8.8698 	EXP 	window1: recordFrameIntervals = False
+9.0349 	EXP 	window1: recordFrameIntervals = True
+9.2187 	EXP 	window1: recordFrameIntervals = False
+9.3773 	EXP 	Created txt_instrcution = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='txt_instrcution', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=array([255., 255., 255.]), text=str(...), units='height', win=Window(...), wrapWidth=1)
+9.3859 	EXP 	Created txt_imi = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='txt_imi', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=array([255., 255., 255.]), text='+', units='height', win=Window(...), wrapWidth=1)
+9.6637 	EXP 	Created movie2_video = MovieStim3(__class__=<class 'psychopy.visual.movie3.MovieStim3'>, autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=0.0, filename='stimuliSet\\v5\\seg\\v5_comb.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie2_video', noAudio=True, opacity=1.0, ori=0, pos=array([0., 0.]), size=array([480., 352.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+9.6661 	EXP 	Created txt_imi = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='txt_imi', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=array([255., 255., 255.]), text='+', units='height', win=Window(...), wrapWidth=1)
+9.7267 	EXP 	Created movie3_seg = MovieStim3(__class__=<class 'psychopy.visual.movie3.MovieStim3'>, autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=-2.0, filename='stimuliSet\\v1\\seg\\v1_comb.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie3_seg', noAudio=True, opacity=1.0, ori=0, pos=array([0., 0.]), size=array([480., 352.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+9.7702 	EXP 	movie2_video: movie = 'stimuliSet\\v5\\seg\\v5_comb.avi'
+9.7702 	EXP 	movie2_video: autoLog = True
+9.7702 	EXP 	movie3_seg: movie = 'stimuliSet\\v1\\seg\\v1_comb.avi'
+9.7702 	EXP 	movie3_seg: autoLog = True
+9.7702 	EXP 	txt_instrcution: autoDraw = True
+61.7084 	EXP 	Created movie1_video = MovieStim3(__class__=<class 'psychopy.visual.movie3.MovieStim3'>, autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=-2.0, filename='stimuliSet\\v7\\seg\\v7_comb.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie1_video', noAudio=True, opacity=1.0, ori=0, pos=array([0., 0.]), size=array([480., 360.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+61.7252 	EXP 	txt_instrcution: autoDraw = False
+61.7252 	EXP 	movie1_video: movie = 'stimuliSet\\v7\\seg\\v7_comb.avi'
+61.7252 	EXP 	movie1_video: autoLog = True
+61.7252 	EXP 	movie1_video: autoDraw = True
+282.7335 	EXP 	movie1_video: autoDraw = False
+282.7335 	EXP 	movie1_video: autoDraw = False
+282.7335 	EXP 	txt_imi: autoDraw = True
+285.7344 	EXP 	txt_imi: autoDraw = False
+285.7344 	EXP 	txt_imi: autoDraw = False
+285.7344 	EXP 	movie2_video: autoDraw = True
+479.8426 	EXP 	movie2_video: autoDraw = False
+479.8426 	EXP 	movie2_video: autoDraw = False
+479.8426 	EXP 	txt_imi: autoDraw = True
+482.8435 	EXP 	txt_imi: autoDraw = False
+482.8435 	EXP 	txt_imi: autoDraw = False
+482.8435 	EXP 	movie3_seg: autoDraw = True
+667.6155 	EXP 	movie3_seg: autoDraw = False
+667.6155 	EXP 	movie3_seg: autoDraw = False
+667.7572 	EXP 	window1: mouseVisible = True

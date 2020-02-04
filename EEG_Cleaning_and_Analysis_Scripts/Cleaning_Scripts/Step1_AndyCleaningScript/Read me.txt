@@ -1,0 +1,13 @@
+Before using the eeg.analysis script, first ensure that your directory structure is correct. You should create 
+a seperate subject folder named with the subjects number (i.e. 28211) for each subject. Each subject folder should contain
+the corresponding raw datas (i.e. 28211_ClosedPre1) file. All data files should be named in the following way 
+Subj#_[WhateverYouWant]1.txt. If the number at the end of your file is a 1 your subject folder should only include 
+one subject file, if the number is a 2 your folder should contain 2 files (i.e. 28211_ClosedPre1 and 28211_ClosedPre2) 
+in this case only the second file (28211_ClosedPre2) will be analyzed.
+
+The analysis script should be in the same dirctory where all of your subject folders are contained.
+
+Once your folders are set up correctly and your files are named correctly. Open the analysis script in R Studio.
+On the command line type source('eeg.analysis.3.1.3.txt') and then enter. Then type analyze.folders("ClosedPre") and then enter.
+You can run multiple subjects at once as long as the directories are set up and the files are named correctly.
+

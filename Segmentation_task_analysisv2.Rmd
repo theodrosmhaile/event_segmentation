@@ -36,7 +36,7 @@ library(matlab)
 library(gridExtra)
 library(ggplot2)
 library(stringr)
-library(psych)
+#library(psych)
 library(tibble)
 library(knitr)
 library(reshape2)
@@ -130,11 +130,11 @@ subject.segments <- data.frame('subject' = subject,
                                 'V' = subject.segments.ord %>% as.matrix() %>% reshape(.,  n.videos, n.participants) %>% t()
                                 )
 
-if(0) {
-  write.csv(subject.segments,'./processed_data/results/segmentation_by_subject_11.18.19.csv',row.names = F)
- saveRDS(subject.keyPresses.v1,'./processed_data/results/segmentation.keypresses.v1.11.18.19')
-  saveRDS(subject.keyPresses.v2,'./processed_data/results/segmentation.keypresses.v2.11.18.19')
-  saveRDS(subject.keyPresses.v3,'./processed_data/results/segmentation.keypresses.v3.11.18.19')
+if(1) {
+  write.csv(subject.segments,'./processed_data/results/segmentation_by_subject_01.21.20.csv',row.names = F)
+ saveRDS(subject.keyPresses.v1,'./processed_data/results/segmentation.keypresses.v1.01.21.20')
+  saveRDS(subject.keyPresses.v2,'./processed_data/results/segmentation.keypresses.v2.01.21.20')
+  saveRDS(subject.keyPresses.v3,'./processed_data/results/segmentation.keypresses.v3.01.21.20')
   
 }
 ```
