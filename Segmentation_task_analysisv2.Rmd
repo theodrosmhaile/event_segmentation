@@ -27,13 +27,20 @@ frequency of event segmentation was assessed across all 3 videos
 
 
 ```{r set-up, message=FALSE}
-#rm(list = ls())
+rm(list = ls())
 library(jsonlite)
-library(stringr)
+
 library(matlab)
-library(tidyverse)
-library(reshape2)
+#library(tidyverse)
+
 library(gridExtra)
+library(ggplot2)
+library(stringr)
+#library(psych)
+library(tibble)
+library(knitr)
+library(reshape2)
+library(MASS)
 ```
 
 ```{r initial analysis}
@@ -41,7 +48,7 @@ library(gridExtra)
 subject = c()
 #read data file
 data.files <- list.files('raw_data/', pattern = '.csv')
-
+#data.files <- data.files[1:2]#DEBUG###########################
 n.participants <- length(data.files)
 n.videos <- 3 # participants watch 3 videos
 #initialize variable
@@ -75,7 +82,7 @@ pattern = "[0-9]"
 log.temp <- read.delim(file =  paste0('raw_data/', substring(p, 1, str_length(p) - 3),'log'), 
                        header = F, sep = "\t")
 
-vid1.i <- str_detect(log.temp$V3, 'movie1_video: movie') #find entry for video 1
+vid1.i <- str_detect(log.temp$V3, 'movie1_video: movie') #find entry for video 1, note that V3 is variable3 
 vid2.i <- str_detect(log.temp$V3, 'movie2_video: movie') #find entry for video 2
 vid3.i <- str_detect(log.temp$V3, 'movie3_seg: movie')   #find entry for video 3
 
@@ -123,25 +130,40 @@ subject.segments <- data.frame('subject' = subject,
                                 'V' = subject.segments.ord %>% as.matrix() %>% reshape(.,  n.videos, n.participants) %>% t()
                                 )
 
+<<<<<<< HEAD
 if(0) {
   write.csv(subject.segments,'./segmentation_by_subject_temp.csv',row.names = F)
+=======
+if(1) {
+  write.csv(subject.segments,'./processed_data/results/segmentation_by_subject_01.21.20.csv',row.names = F)
+ saveRDS(subject.keyPresses.v1,'./processed_data/results/segmentation.keypresses.v1.01.21.20')
+  saveRDS(subject.keyPresses.v2,'./processed_data/results/segmentation.keypresses.v2.01.21.20')
+  saveRDS(subject.keyPresses.v3,'./processed_data/results/segmentation.keypresses.v3.01.21.20')
+  
+>>>>>>> a576b1408dbe5a4ba2831f5d9472996443b8ca2e
 }
 ```
 
 ## raster plots
 ```{r, warning=F, message=F, fig.width=8, fig.height=4}
+<<<<<<< HEAD
 fig.v3 <- subject.keyPresses.v3 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(shape=3, size=2) +
   xlab('time(ss)') + ylab('Subject number') + 
   theme_classic(base_size = 18) +  xlim(c(1,50000)) + 
+=======
+fig.v3 <- subject.keyPresses.v3 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(size=2, alpha=0.4)+#(shape=3, size=2) +
+  xlab('time(s)') + ylab('Subject number') + 
+  theme_classic(base_size = 18) + xlim(c(1,250)) + 
+>>>>>>> a576b1408dbe5a4ba2831f5d9472996443b8ca2e
   labs(title='Key presses in Video 3(v7)')
 
-fig.v2 <-subject.keyPresses.v2 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(shape=3, size=2) +
-  xlab('time(ms)') + ylab('Subject number') + 
+fig.v2 <-subject.keyPresses.v2 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(size=2, alpha=0.4)+#(shape=3, size=2) +
+  xlab('time(s)') + ylab('Subject number') + 
   theme_classic(base_size = 18) + xlim(c(1,250)) + 
   labs(title='Key presses in Video 2(v5)')
 
-fig.v1 <- subject.keyPresses.v1 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(shape=3, size=2) +
-  xlab('time(ms)') + ylab('Subject number') + 
+fig.v1 <- subject.keyPresses.v1 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(size=2, alpha=0.4)+#(shape=3, size=2) +
+  xlab('time(s)') + ylab('Subject number') + 
   theme_classic(base_size = 18) + xlim(c(1,250)) + 
   labs(title='Key presses in Video 1(v1)')
 

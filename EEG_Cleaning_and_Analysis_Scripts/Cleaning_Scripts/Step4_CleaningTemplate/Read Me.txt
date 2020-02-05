@@ -1,0 +1,9 @@
+To use the cleaning template:
+
+1) Paste the summary output from Andy's script for each subject (you can use the concantenation script to 
+combine the summary file for each subject into one file) into the Raw Data tab of the template.
+
+2) Remove manually identified bad channels (identified using EDF Browser visual inspection) by entering a "1" 
+for the appropriate subject and channel (green section) of the Quality Metrics tab.
+
+3) Use the output on the Final_Data tab for subsaquent analyses.

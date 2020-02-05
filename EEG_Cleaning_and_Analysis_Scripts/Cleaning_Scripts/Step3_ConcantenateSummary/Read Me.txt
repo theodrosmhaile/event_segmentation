@@ -1,0 +1,2 @@
+Use the concantenation script to merge the summary files (produced by Andy's script) from all subjects
+ into one summary file. This file will then be pasted into the Raw tab of the EEG_DataCleaning_Template

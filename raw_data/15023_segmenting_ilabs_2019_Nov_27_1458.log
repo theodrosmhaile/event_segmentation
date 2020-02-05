@@ -1,0 +1,80 @@
+6.2668 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1920, 1080]. Using actual size
+7.2224 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, args=UNKNOWN, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([0., 0., 0.]), colorSpace='rgb', fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x000000001D063B70>, gamma=None, gammaErrorPolicy='raise', kwargs=UNKNOWN, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000000001D0D4C18>, multiSample=False, name='window1', numSamples=2, pos=[0.0, 0.0], screen=0, size=array([1920, 1080]), stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+7.2225 	EXP 	window1: recordFrameIntervals = False
+7.3878 	EXP 	window1: recordFrameIntervals = True
+7.5716 	EXP 	window1: recordFrameIntervals = False
+7.7519 	EXP 	Created txt_instrcution = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='txt_instrcution', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=array([255., 255., 255.]), text=str(...), units='height', win=Window(...), wrapWidth=1)
+7.7607 	EXP 	Created txt_imi = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='txt_imi', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=array([255., 255., 255.]), text='+', units='height', win=Window(...), wrapWidth=1)
+7.9621 	EXP 	Created movie2_video = MovieStim3(__class__=<class 'psychopy.visual.movie3.MovieStim3'>, autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=0.0, filename='stimuliSet\\v7\\seg\\v7_comb.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie2_video', noAudio=True, opacity=1.0, ori=0, pos=array([0., 0.]), size=array([480., 360.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+7.9644 	EXP 	Created txt_imi = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='txt_imi', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=array([255., 255., 255.]), text='+', units='height', win=Window(...), wrapWidth=1)
+8.0149 	EXP 	Created movie3_seg = MovieStim3(__class__=<class 'psychopy.visual.movie3.MovieStim3'>, autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=-2.0, filename='stimuliSet\\v5\\seg\\v5_comb.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie3_seg', noAudio=True, opacity=1.0, ori=0, pos=array([0., 0.]), size=array([480., 352.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+8.0568 	EXP 	movie2_video: movie = 'stimuliSet\\v7\\seg\\v7_comb.avi'
+8.0568 	EXP 	movie2_video: autoLog = True
+8.0568 	EXP 	movie3_seg: movie = 'stimuliSet\\v5\\seg\\v5_comb.avi'
+8.0568 	EXP 	movie3_seg: autoLog = True
+8.0568 	EXP 	txt_instrcution: autoDraw = True
+31.5857 	EXP 	Created movie1_video = MovieStim3(__class__=<class 'psychopy.visual.movie3.MovieStim3'>, autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=-2.0, filename='stimuliSet\\v1\\seg\\v1_comb.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie1_video', noAudio=True, opacity=1.0, ori=0, pos=array([0., 0.]), size=array([480., 352.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+31.6027 	EXP 	txt_instrcution: autoDraw = False
+31.6027 	EXP 	movie1_video: movie = 'stimuliSet\\v1\\seg\\v1_comb.avi'
+31.6027 	EXP 	movie1_video: autoLog = True
+31.6027 	EXP 	movie1_video: autoDraw = True
+62.7435 	DATA 	Mouse: Left button down, pos=(976,550)
+62.9560 	DATA 	Mouse:  Left button up, pos=(976,550)
+96.5327 	DATA 	Keypress: space
+101.3012 	DATA 	Keypress: space
+101.7164 	DATA 	Keypress: space
+163.9345 	DATA 	Keypress: space
+216.3752 	EXP 	movie1_video: autoDraw = False
+216.3752 	EXP 	movie1_video: autoDraw = False
+216.3752 	EXP 	txt_imi: autoDraw = True
+219.3762 	EXP 	txt_imi: autoDraw = False
+219.3762 	EXP 	txt_imi: autoDraw = False
+219.3762 	EXP 	movie2_video: autoDraw = True
+220.4153 	DATA 	Keypress: space
+222.2309 	DATA 	Mouse: Left button down, pos=(821,415)
+223.2497 	DATA 	Mouse:  Left button up, pos=(818,440)
+261.9768 	DATA 	Keypress: space
+273.1789 	DATA 	Keypress: space
+293.6178 	DATA 	Keypress: space
+357.7993 	DATA 	Keypress: space
+368.5542 	DATA 	Keypress: space
+372.8551 	DATA 	Keypress: space
+375.2541 	DATA 	Keypress: space
+379.9541 	DATA 	Keypress: space
+383.7562 	DATA 	Keypress: space
+401.2943 	DATA 	Keypress: space
+422.6854 	DATA 	Keypress: space
+427.5523 	DATA 	Keypress: space
+440.3834 	EXP 	movie2_video: autoDraw = False
+440.3834 	EXP 	movie2_video: autoDraw = False
+440.3834 	EXP 	txt_imi: autoDraw = True
+441.3030 	DATA 	Keypress: space
+443.3840 	EXP 	txt_imi: autoDraw = False
+443.3840 	EXP 	txt_imi: autoDraw = False
+443.3840 	EXP 	movie3_seg: autoDraw = True
+459.5423 	DATA 	Keypress: space
+462.5608 	DATA 	Keypress: space
+468.9772 	DATA 	Keypress: space
+471.7475 	DATA 	Keypress: space
+492.0850 	DATA 	Keypress: space
+505.7376 	DATA 	Keypress: space
+507.6374 	DATA 	Keypress: space
+514.3726 	DATA 	Keypress: space
+517.4067 	DATA 	Keypress: space
+527.2944 	DATA 	Keypress: space
+532.6131 	DATA 	Keypress: space
+537.4626 	DATA 	Keypress: space
+552.8328 	DATA 	Keypress: space
+566.2370 	DATA 	Keypress: space
+568.6368 	DATA 	Keypress: space
+573.6048 	DATA 	Keypress: space
+575.9237 	DATA 	Keypress: space
+587.1263 	DATA 	Keypress: space
+589.5943 	DATA 	Keypress: space
+595.1628 	DATA 	Keypress: space
+619.7340 	DATA 	Keypress: space
+623.4207 	DATA 	Keypress: space
+631.4028 	DATA 	Keypress: space
+637.4843 	EXP 	movie3_seg: autoDraw = False
+637.4843 	EXP 	movie3_seg: autoDraw = False
+637.5377 	EXP 	window1: mouseVisible = True
