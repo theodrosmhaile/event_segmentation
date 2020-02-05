@@ -97,7 +97,7 @@ subject.segs <- c(subject.segs,
                   
                     
 #save all key presses
-temp_list = list(vid1.segments.rt,vid2.segments.rt,vid3.segments.rt)
+temp_list = list(vid1.segments.rt * 1000,vid2.segments.rt  * 1000,vid3.segments.rt * 1000)
 subject.keyPresses[i] <-  list(list(temp_list[order(temp.vid.ord)]))
 
 subject.keyPresses.v1[i] <- list(temp_list[order(temp.vid.ord)[1]]) # list(vid1.segments.rt)
@@ -124,15 +124,15 @@ subject.segments <- data.frame('subject' = subject,
                                 )
 
 if(0) {
-  write.csv(subject.segments,'./processed/segmentation_by_subject.csv',row.names = F)
+  write.csv(subject.segments,'./segmentation_by_subject_temp.csv',row.names = F)
 }
 ```
 
 ## raster plots
 ```{r, warning=F, message=F, fig.width=8, fig.height=4}
 fig.v3 <- subject.keyPresses.v3 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(shape=3, size=2) +
-  xlab('time(ms)') + ylab('Subject number') + 
-  theme_classic(base_size = 18) + xlim(c(1,250)) + 
+  xlab('time(ss)') + ylab('Subject number') + 
+  theme_classic(base_size = 18) +  xlim(c(1,50000)) + 
   labs(title='Key presses in Video 3(v7)')
 
 fig.v2 <-subject.keyPresses.v2 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(shape=3, size=2) +

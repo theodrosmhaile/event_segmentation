@@ -35,7 +35,7 @@ library(MASS)
 
 
 ```{r import segmentation data, echo=F}
-segment.dat <- read.csv('./processed/results/segmentation_by_subject.csv')
+segment.dat <- read.csv('./segmentation_by_subject_temp.csv')
 subjects <- segment.dat$subject
 
 
