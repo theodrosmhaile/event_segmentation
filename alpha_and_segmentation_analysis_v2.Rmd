@@ -36,11 +36,11 @@ library(gridExtra)
 
 
 ```{r import segmentation data, echo=F}
-<<<<<<< HEAD
-segment.dat <- read.csv('./segmentation_by_subject_temp.csv')
-=======
+
+#segment.dat <- read.csv('./segmentation_by_subject_temp.csv')
+
 segment.dat <- read.csv('./processed_data/results/segmentation_by_subject_11.18.19.csv')
->>>>>>> a576b1408dbe5a4ba2831f5d9472996443b8ca2e
+
 subjects <- segment.dat$subject
 
  subject.keyPresses.v1 <- readRDS('./processed_data/results/segmentation.keypresses.v1.11.18.19')
@@ -53,9 +53,9 @@ subjects <- segment.dat$subject
 
 #if (0) {
 # Import EEG resting state data for alpha band in channels O1 and O2. Turn on only if changing anything in the following code
-#EEG.data <- read_excel('../AllSubj_AcrossCohorts_AllEEG_8.7.19.xlsx')
-#EEG.data.alpha <- EEG.data[ , c(1,2,4,172,173,178,179,1412, 1413, 1418,1419)]
-#uclimb.psychometrics <- EEG.data[ , c(1,76, 115,119,125)]
+EEG.data <- read_excel('./AllSubj_AcrossCohorts_AllEEG_8.7.19.xlsx')
+EEG.data.allchnls <- EEG.data[,c(1,2,4,132:257,1372:1497)]
+#uclimb.psychometrics <- EEG.data [ , c(1,76, 115,119,125)]
 #write.csv(EEG.data.alpha, '~/google-drive/CCDL Shared/Shared/Savannah/staem_analysis/processed/alpha_only_EEG_data.csv', row.names = F)
 #write.csv(uclimb.psychometrics, '~/google-drive/CCDL Shared/Shared/Savannah/staem_analysis/processed/uclimb_wm_ravens_data.csv', row.names = F)
 #}
