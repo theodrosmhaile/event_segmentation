@@ -32,6 +32,7 @@ library(knitr)
 library(reshape2)
 library(MASS)
 library(gridExtra)
+library(matlab)
 ```
 
 
@@ -39,35 +40,32 @@ library(gridExtra)
 
 #segment.dat <- read.csv('./segmentation_by_subject_temp.csv')
 
-segment.dat <- read.csv('./processed_data/results/segmentation_by_subject_11.18.19.csv')
+segment.dat <- read.csv('./processed_data/results/segmentation_by_subject_01.21.20.csv')
 
-subjects <- segment.dat$subject
-
- subject.keyPresses.v1 <- readRDS('./processed_data/results/segmentation.keypresses.v1.11.18.19')
-  subject.keyPresses.v2 <- readRDS('./processed_data/results/segmentation.keypresses.v2.11.18.19')
-  subject.keyPresses.v3 <- readRDS('./processed_data/results/segmentation.keypresses.v3.11.18.19')
+exclude.subjects= c(28243)
+subjects.temp <- segment.dat$subject
+subjects = subjects.temp[subjects.temp!=exclude.subjects]
+#IMPORTANT THIS FOLLOWS THE 'SUBJECTS' ORDER OF PARTICIPANTS - REALM FIRST THEN UCLIMB
+  subject.keyPresses.v1 <- readRDS('./processed_data/results/segmentation.keypresses.v1.01.21.20')
+  subject.keyPresses.v2 <- readRDS('./processed_data/results/segmentation.keypresses.v2.01.21.20')
+  subject.keyPresses.v3 <- readRDS('./processed_data/results/segmentation.keypresses.v3.01.21.20')
 
 ```
 
-```{r import data, echo=F}
+```{r import EEG data, echo=F}
 
-#if (0) {
-# Import EEG resting state data for alpha band in channels O1 and O2. Turn on only if changing anything in the following code
-EEG.data <- read_excel('./AllSubj_AcrossCohorts_AllEEG_8.7.19.xlsx')
-EEG.data.allchnls <- EEG.data[,c(1,2,4,132:257,1372:1497)]
+
+# Import EEG resting state data 
+EEG.data.raw <- read.csv('./Emotiv_EEG_Data/EEG_data_UClimb_and_REALM.csv') #%>% View()
+#EEG.data.allchnls <- EEG.data[,c(1,2,4,132:257,1372:1497)]
 #uclimb.psychometrics <- EEG.data [ , c(1,76, 115,119,125)]
-#write.csv(EEG.data.alpha, '~/google-drive/CCDL Shared/Shared/Savannah/staem_analysis/processed/alpha_only_EEG_data.csv', row.names = F)
-#write.csv(uclimb.psychometrics, '~/google-drive/CCDL Shared/Shared/Savannah/staem_analysis/processed/uclimb_wm_ravens_data.csv', row.names = F)
-#}
 
-EEG.data.alpha <- read.csv('./processed_data/alpha_only_EEG_data.csv')
+index.subjects  = !is.na(match(as.numeric(EEG.data.raw$OLCTS.Expt..), subjects)) | 
+  !is.na(match(as.numeric(EEG.data.raw$Python.Expt..), subjects))
+#EEG.data <- EEG.data[, 5:ncol(EEG.data)]
+#uclimb.psychometrics <- read.csv('./processed_data/uclimb_wm_ravens_data.csv')[index.subjects,3:6 ]
 
-index.subjects  = !is.na(match(as.numeric(EEG.data.alpha$OLCTS.Expt..), subjects)) | 
-  !is.na(match(as.numeric(EEG.data.alpha$Python.Expt..), subjects))
-
-uclimb.psychometrics <- read.csv('./processed_data/uclimb_wm_ravens_data.csv')[index.subjects,3:6 ]
-
-uclimb.psychometrics$compositeWM <- rowMeans(uclimb.psychometrics[,2:4]) 
+uclimb.psychometrics$compositeWM <- rowMeans(uclimb.psychometrics[,2:4]) #updatethis combine with REALM data
 uclimb.psychometrics$subject <- subjects
 # range  = c("A1:B55","FP1:FQ55", "FV1:FW55", "BBH1:BBI55", "BBK1:BBL55"))
 #'FS1:FS55','BBE1:BBE55',
@@ -76,15 +74,30 @@ uclimb.psychometrics$subject <- subjects
 
 
 ```{r join data, echo=FALSE}
+######## THESE SHOULD BE EDITED TO INCLUDE ALL CHANNELS
 
-alpha.dat <- cbind(O1_IAF_power_closed = rowMeans(EEG.data.alpha[index.subjects, c("O1_IAF_Power_OLCTS_StandardBand_Closed", 
-                                                                                   "O1_IAF_Power_Python_StandardBand_Closed")], na.rm = T),
-                   O2_IAF_power_closed = rowMeans(EEG.data.alpha[index.subjects, c("O2_IAF_Power_OLCTS_StandardBand_Closed",
-                                                                                   "O2_IAF_Power_Python_StandardBand_Closed")], na.rm = T),
-                   O1_IAF_closed = rowMeans(EEG.data.alpha[index.subjects, c("O1_IAF_OLCTS_StandardBand_Closed", 
-                                                                             "O1_IAF_Python_StandardBand_Closed")], na.rm = T),
-                   O2_IAF_closed = rowMeans(EEG.data.alpha[index.subjects, c("O2_IAF_OLCTS_StandardBand_Closed", 
-                                                                             "O2_IAF_Python_StandardBand_Closed")], na.rm = T))
+
+#this matrix includes
+EEG.dat.temp <- cbind(EEG.data.raw[index.subjects,regexpr( "_OLCTS", names(EEG.data.raw), ignore.case = TRUE)!=-1] %>% 
+        as.matrix() %>% 
+        c(), 
+      EEG.data.raw[index.subjects, regexpr( "_python", names(EEG.data.raw), ignore.case = TRUE)!=-1] %>% 
+        as.matrix() %>% 
+        c()) %>% 
+  rowMeans(na.rm = TRUE) %>% 
+  as.matrix() %>% 
+  reshape(., length(subjects),ncol(EEG.data.raw[,regexpr( "_OLCTS", names(EEG.data.raw))!=-1]) ) %>% 
+  as.data.frame()
+
+#rename the columns with clean manageabe names!
+
+ names(EEG.dat.temp) = str_split(names(EEG.data.raw)[regexpr( "_OLCTS", names(EEG.data.raw))!=-1], '_O',simplify = T)[,1]
+
+ EEG.data <- cbind('subjects'= EEG.data.raw$OLCTS.Expt..[index.subjects],
+                    EEG.dat.temp)
+
+
+###########COMBINE ALL ABOVE IN TO ONE DATAFRAME 
 
 over.segment = ifelse(scale(segment.dat[,2:4]) > 1,1,0 )
 under.segment = ifelse(scale(segment.dat[,2:4]) < -1,-1,0 )
@@ -92,7 +105,7 @@ under.segment = ifelse(scale(segment.dat[,2:4]) < -1,-1,0 )
 segmenter = over.segment + under.segment
 norm.segmenter.p = 1-(rowSums(segmenter!=0) / 3) 
 # assign probability of a participant being normal segmenter or over/under segmenter
-alpha_and_seg <- cbind(segment.dat, age = EEG.data.alpha$Age[index.subjects], alpha.dat, norm.segmenter.p) #this contains the segmentation and alpha in one table
+alpha_and_seg <- cbind(segment.dat, age = EEG.data$Age[index.subjects], alpha.dat, norm.segmenter.p) #this contains the segmentation and alpha in one table
 
 
 
@@ -100,7 +113,7 @@ alpha_and_seg <- cbind(segment.dat, age = EEG.data.alpha$Age[index.subjects], al
 
 #save data to text file
 if (0){
-write.csv(cbind(segment.dat, EEG.data.alpha[index.subjects, 3:9 ]),'./processed/segmentation_EEG_data.csv', row.names = F)
+write.csv(cbind(segment.dat, EEG.data[index.subjects, 3:9 ]),'./processed/segmentation_EEG_data_041220.csv', row.names = F)
 }
 
 ```
@@ -111,17 +124,23 @@ write.csv(cbind(segment.dat, EEG.data.alpha[index.subjects, 3:9 ]),'./processed/
 
 #### raster plots
 ```{r, warning=F, message=F, fig.width=8, fig.height=4}
-fig.v3 <- subject.keyPresses.v3 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(size=2, alpha=0.4)+#(shape=3, size=2) +
+fig.v3 <- subject.keyPresses.v3[] %>% 
+  melt() %>%
+  ggplot(aes(value, L1)) + geom_point(size=2, alpha=0.4)+#(shape=3, size=2) +
   xlab('time(s)') + ylab('Subject number') + 
   theme_classic(base_size = 18) + xlim(c(1,250)) + 
   labs(title='Key presses in Video 3(v7)')
 
-fig.v2 <-subject.keyPresses.v2 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(size=2, alpha=0.4)+#(shape=3, size=2) +
+fig.v2 <-subject.keyPresses.v2 %>% 
+  melt() %>% 
+  ggplot(aes(value, L1)) + geom_point(size=2, alpha=0.4)+#(shape=3, size=2) +
   xlab('time(s)') + ylab('Subject number') + 
   theme_classic(base_size = 18) + xlim(c(1,250)) + 
   labs(title='Key presses in Video 2(v5)')
 
-fig.v1 <- subject.keyPresses.v1 %>% melt() %>% ggplot(aes(value, L1)) + geom_point(size=2, alpha=0.4)+#(shape=3, size=2) +
+fig.v1 <- subject.keyPresses.v1 %>% 
+  melt() %>%
+  ggplot(aes(value, L1)) + geom_point(size=2, alpha=0.4)+#(shape=3, size=2) +
   xlab('time(s)') + ylab('Subject number') + 
   theme_classic(base_size = 18) + xlim(c(1,250)) + 
   labs(title='Key presses in Video 1(v1)')
